@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseDesk Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .ticket {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+
+        .ticket-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-right: 5px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<h1>PulseDesk - Comment Triage Demo</h1>
+
+<div class="section">
+    <h2>Submit Comment</h2>
+    <form id="commentForm">
+        <label>Enter your comment:</label>
+        <textarea id="commentText" rows="4" placeholder="Type your feedback here..." required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="message" class="message"></div>
+</div>
+
+<div class="section">
+    <h2>Generated Tickets</h2>
+    <button onclick="loadTickets()">Refresh Tickets</button>
+    <div id="ticketsContainer">
+        <p>Loading...</p>
+    </div>
+</div>
+
+<script>
+    const API = 'http://localhost:8080';
+
+    document.getElementById('commentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const text = document.getElementById('commentText').value;
+        const btn = e.target.querySelector('button');
+        const msg = document.getElementById('message');
+
+        btn.disabled = true;
+        btn.textContent = 'Processing...';
+        msg.style.display = 'none';
+
+        try {
+            const response = await fetch(`${API}/comments`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text})
+            });
+
+            const data = await response.json();
+
+            msg.className = 'message success';
+            msg.textContent = data.needsTicket
+                ? 'Comment submitted! Ticket created.'
+                : 'Thank you for your feedback!';
+            msg.style.display = 'block';
+
+            document.getElementById('commentText').value = '';
+            setTimeout(() => loadTickets(), 1000);
+
+        } catch (error) {
+            msg.className = 'message error';
+            msg.textContent = 'Error: ' + error.message;
+            msg.style.display = 'block';
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Submit';
+    });
+
+    async function loadTickets() {
+        const container = document.getElementById('ticketsContainer');
+
+        try {
+            const response = await fetch(`${API}/tickets`);
+            const tickets = await response.json();
+
+            if (tickets.length === 0) {
+                container.innerHTML = '<p>No tickets yet.</p>';
+                return;
+            }
+
+            let html = '<table><tr><th>ID</th><th>Title</th><th>Category</th><th>Priority</th><th>Summary</th></tr>';
+
+            tickets.forEach(t => {
+                html += `<tr>
+                        <td>#${t.id}</td>
+                        <td>${t.title}</td>
+                        <td>${t.category}</td>
+                        <td>${t.priority}</td>
+                        <td>${t.summary}</td>
+                    </tr>`;
+            });
+
+            html += '</table>';
+            container.innerHTML = html;
+
+        } catch (error) {
+            container.innerHTML = '<p>Error loading tickets. Make sure backend is running.</p>';
+        }
+    }
+
+    loadTickets();
+</script>
+</body>
+</html>
