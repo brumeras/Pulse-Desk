@@ -28,7 +28,8 @@ public class Comment
     @Column
     private Boolean needsTicket = false;
 
-    public Comment(String text) {
+    public Comment(String text)
+    {
         this.text = text;
         this.timestamp = LocalDateTime.now();
         this.processed = false;
