@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 @Data
 @NoArgsConstructor
-public class Comment {
+public class Comment
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
