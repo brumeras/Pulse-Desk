@@ -9,7 +9,7 @@ public class HuggingApiApplication
     public static void main(String[] args)
     {
         SpringApplication.run(HuggingApiApplication.class, args);
-        System.out.println("HuggingApiApplication started");
+        System.out.println("Application started");
     }
 
 }
