@@ -9,9 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "tickets")
 @Data
 @NoArgsConstructor
+public class Ticket {
 
-public class Ticket
-{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,18 +35,15 @@ public class Ticket
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    public enum Category
-    {
+    public enum Category {
         BUG, FEATURE, BILLING, ACCOUNT, OTHER
     }
 
-    public enum Priority
-    {
+    public enum Priority {
         LOW, MEDIUM, HIGH
     }
 
-    public Ticket(Long commentId, String title, Category category, Priority priority, String summary)
-    {
+    public Ticket(Long commentId, String title, Category category, Priority priority, String summary) {
         this.commentId = commentId;
         this.title = title;
         this.category = category;

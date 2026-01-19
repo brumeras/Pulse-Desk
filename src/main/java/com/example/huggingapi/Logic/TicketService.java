@@ -16,14 +16,15 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public Ticket createTicket(Comment comment, AnalysisResultFromAI analysis) {
-
-        Ticket ticket = new Ticket();
-        ticket.setCommentId(comment.getId());
-        ticket.setTitle(analysis.getTitle());
-        ticket.setCategory(analysis.getCategoryEnum());
-        ticket.setPriority(analysis.getPriorityEnum());
-        ticket.setSummary(analysis.getSummary());
+    public Ticket createTicket(Comment comment, AnalysisResultFromAI analysis)
+    {
+        Ticket ticket = new Ticket(
+                comment.getId(),
+                analysis.getTitle(),
+                analysis.getCategoryEnum(),
+                analysis.getPriorityEnum(),
+                analysis.getSummary()
+        );
 
         return ticketRepository.save(ticket);
     }
