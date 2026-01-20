@@ -56,3 +56,19 @@ are empty:
    And most importantly a ticket is being created after AI analyses it, so,
    staff can recognise the issue.
    ![GoodComment](src/main/resources/Pictures/TicketIsBeingCreated.png)
+
+## AI categories and priorities
+
+````
+Categories:
+BUG - technical issues
+FEATURE - request on new features
+BILLING - issues with payment 
+ACCOUNT - issues with an account
+OTHER - other problems
+
+Priorities:
+HIGH - critical and urgent problem
+MEDIUM - medium priority
+LOW - low priority
+````
