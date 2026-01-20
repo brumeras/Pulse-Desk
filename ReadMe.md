@@ -1,8 +1,34 @@
 ## Pulse Desk - Comment to ticket system.
 
+# Table of contents: 
+- [Main idea](Main idea)
+- [Video demonstration](Video demontration)
+- [Project structure](Project steucture)
+
 ## Main idea: 
-PulseDesk is a backend system, which analyses users feedback (comments) by integrated AI
-(Hugging Face) and creates a ticket if comment was left in order for product to improve. 
+**PulseDesk** is an intelligent backend system that **automatically analyzes 
+user feedback using AI** and creates support tickets only when necessary. It **helps support teams focus on real issues** by filtering out positive feedback and automatically categorizing problems.
+
+# Problems: 
+1. **Important issues can be missed.**
+2. People have to read all feedbacks in order to find bad ones.
+3. No standardized categorization.
+
+# Solutions:
+1. **Automatically detect** if a comment requires support.
+2. **Create tickets** only for actual problems.
+3. **Categorize issues** (Bug, Feature, Billing....).
+4. **Assign priority levels** (High, Medium, Low).
+5. **Filter out** compliments and positive feedback.
+
+# Features: 
+- **AI-Powered Analysis** - Intelligent comment classification.
+- **Automatic Ticket Creation** - Only for issues requiring support.
+- **Smart Categorization** - 5 categories (Bug, Feature, Billing, Account, Other).
+- **Priority Assignment** - Automatic priority levels.
+- **RESTful API** - Easy integration with any frontend.
+- **H2 Database** - In-memory storage for quick development.
+- **Web UI** - Simple interface for testing.
 
 ## Video demonstration:
 
@@ -11,7 +37,7 @@ PulseDesk is a backend system, which analyses users feedback (comments) by integ
 ├── Controller/
 │   ├── CommentController.java      # for REST endpoints comments
 │   └── TicketController.java       # for REST endpoints tickets
-├── Service/
+├── Logic/
 │   ├── CommentService.java         # comment's logic 
 │   ├── TicketService.java          # ticket's logic
 │   └── HuggingFaceService.java     # AI integration
@@ -68,8 +94,43 @@ are empty:
 # Good Comment (when it is sent a ticket is NOT created):
 ![TicketIsCreated](src/main/resources/Pictures/GoodComment.png)
 
-## AI categories and priorities
 
+## Getting started
+Before you begin, ensure you have:
+
+- Java 17 or higher
+- Maven 3.6+ 
+- Git 
+1. **Clone the repository**
+``
+git clone https://github.com/brumeras/Pulse-Desk
+cd HuggingAPI
+``
+2. **Verify Java & Maven**
+````
+1. Check Java version
+java -version
+
+# Should show: openjdk version "17.x.x"
+
+2. Check Maven version
+mvn -version
+
+# Should show: Apache Maven 3.6.x or higher
+````
+3. **Build the Project**
+``mvn clean install
+``
+4. **Run the Application**
+``
+mvn spring-boot:run
+``
+5. **Verify It's Running**
+Open in browser:
+``
+http://localhost:8080/tickets
+``
+## AI categories and priorities
 
 ````
 Categories:
