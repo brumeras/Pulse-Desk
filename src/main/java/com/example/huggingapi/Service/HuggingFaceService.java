@@ -1,5 +1,6 @@
-package com.example.huggingapi;
+package com.example.huggingapi.Service;
 
+import com.example.huggingapi.AnalysisResultFromAI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class HuggingFaceService {
+public class HuggingFaceService
+{
 
     private static final Logger logger = LoggerFactory.getLogger(HuggingFaceService.class);
 
@@ -27,14 +29,16 @@ public class HuggingFaceService {
     @Value("${huggingface.api.url}")
     private String apiUrl;
 
-    public HuggingFaceService() {
+    public HuggingFaceService()
+    {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
     }
 
-    public AnalysisResultFromAI analyzeComment(String commentText) {
-        try {
-            logger.info("Analyzing comment with Hugging Face AI: {}", commentText);
+    public AnalysisResultFromAI analyzeComment(String commentText)
+    {
+        try
+        {
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + apiToken);
@@ -54,12 +58,12 @@ public class HuggingFaceService {
 
             ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
 
-            logger.debug("AI Response: {}", response.getBody());
 
             return parseAIResponse(response.getBody());
 
-        } catch (Exception e) {
-            logger.error("Error calling Hugging Face API: {}", e.getMessage(), e);
+        }
+        catch (Exception e)
+        {
             return createFallbackAnalysis(commentText);
         }
     }
@@ -102,14 +106,13 @@ public class HuggingFaceService {
                 generatedText = responseBody;
             }
 
-            logger.debug("Extracted text: {}", generatedText);
-
             String jsonPart = extractJSON(generatedText);
 
             return objectMapper.readValue(jsonPart, AnalysisResultFromAI.class);
 
-        } catch (JsonProcessingException e) {
-            logger.error("Failed to parse AI response: {}", e.getMessage());
+        }
+        catch (JsonProcessingException e)
+        {
             throw new RuntimeException("Failed to parse AI response", e);
         }
     }
@@ -125,8 +128,8 @@ public class HuggingFaceService {
         return text;
     }
 
-    private AnalysisResultFromAI createFallbackAnalysis(String commentText) {
-        logger.warn("Using fallback analysis for comment");
+    private AnalysisResultFromAI createFallbackAnalysis(String commentText)
+    {
 
         boolean needsTicket = containsProblemKeywords(commentText);
 

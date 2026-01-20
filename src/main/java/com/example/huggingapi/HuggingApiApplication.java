@@ -1,8 +1,16 @@
+/**
+ * @author Emilija Sankauskaitė
+ * Main class to run the app (an entry point).
+ */
 package com.example.huggingapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @SpringBootApplication is being used here, because it combines:
+ * @Configuration && @EnableAutoConfiguration && @ComponentScan
+ */
 @SpringBootApplication
 public class HuggingApiApplication
 {
@@ -11,5 +19,4 @@ public class HuggingApiApplication
         SpringApplication.run(HuggingApiApplication.class, args);
         System.out.println("Application started");
     }
-
 }

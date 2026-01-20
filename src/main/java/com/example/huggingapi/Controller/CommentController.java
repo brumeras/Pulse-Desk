@@ -1,6 +1,6 @@
 package com.example.huggingapi.Controller;
 
-import com.example.huggingapi.Logic.CommentService;
+import com.example.huggingapi.Service.CommentService;
 import com.example.huggingapi.Model.Comment;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
