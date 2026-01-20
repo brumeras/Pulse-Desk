@@ -1,16 +1,10 @@
 package com.example.huggingapi;
 
 import com.example.huggingapi.Model.Ticket;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonProperty;
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 
-public class AnalysisResultFromAI
-{
+public class AnalysisResultFromAI {
+
     @JsonProperty("needsTicket")
     private boolean needsTicket;
 
@@ -26,33 +20,75 @@ public class AnalysisResultFromAI
     @JsonProperty("summary")
     private String summary;
 
-    public Ticket.Category getCategoryEnum()
-    {
-        if(category == null)
-        {
+    public AnalysisResultFromAI() {
+    }
+
+    public AnalysisResultFromAI(boolean needsTicket, String title, String category, String priority, String summary) {
+        this.needsTicket = needsTicket;
+        this.title = title;
+        this.category = category;
+        this.priority = priority;
+        this.summary = summary;
+    }
+
+    public boolean isNeedsTicket() {
+        return needsTicket;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setNeedsTicket(boolean needsTicket) {
+        this.needsTicket = needsTicket;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Ticket.Category getCategoryEnum() {
+        if (category == null) {
             return Ticket.Category.OTHER;
         }
-        try
-        {
+        try {
             return Ticket.Category.valueOf(category.toUpperCase());
-        }
-        catch(IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             return Ticket.Category.OTHER;
         }
     }
-    public Ticket.Priority getPriorityEnum()
-    {
-        if(priority == null)
-        {
+
+    public Ticket.Priority getPriorityEnum() {
+        if (priority == null) {
             return Ticket.Priority.MEDIUM;
         }
-        try
-        {
+        try {
             return Ticket.Priority.valueOf(priority.toUpperCase());
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             return Ticket.Priority.MEDIUM;
         }
     }

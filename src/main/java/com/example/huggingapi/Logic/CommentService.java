@@ -1,4 +1,4 @@
-package com.example.huggingapi.Service;
+package com.example.huggingapi.Logic;
 
 import com.example.huggingapi.AnalysisResultFromAI;
 import com.example.huggingapi.Model.Comment;

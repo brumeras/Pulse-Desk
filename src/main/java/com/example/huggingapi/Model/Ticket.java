@@ -1,14 +1,10 @@
 package com.example.huggingapi.Model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
-@Data
-@NoArgsConstructor
 public class Ticket {
 
     @Id
@@ -43,6 +39,9 @@ public class Ticket {
         LOW, MEDIUM, HIGH
     }
 
+    public Ticket() {
+    }
+
     public Ticket(Long commentId, String title, Category category, Priority priority, String summary) {
         this.commentId = commentId;
         this.title = title;
@@ -50,5 +49,62 @@ public class Ticket {
         this.priority = priority;
         this.summary = summary;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

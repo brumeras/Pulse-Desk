@@ -1,6 +1,6 @@
 package com.example.huggingapi.Controller;
 
-import com.example.huggingapi.Service.TicketService;
+import com.example.huggingapi.Logic.TicketService;
 import com.example.huggingapi.Model.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

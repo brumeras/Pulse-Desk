@@ -1,8 +1,8 @@
+package com.example.huggingapi;
 /**
  * @author Emilija Sankauskaitė
  * Main class to run the app (an entry point).
  */
-package com.example.huggingapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
