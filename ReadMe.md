@@ -48,16 +48,28 @@ are empty:
 
 3. Example: a bad comment is being left.
    For example, a bad comment is being left by a dissapointed user:
-   ![GoodComment](src/main/resources/Pictures/BadCommentIsAdded.png)
+   ![BadComment](src/main/resources/Pictures/BadCommentIsAdded.png)
 
    The comment is being saved:
-   ![GoodComment](src/main/resources/Pictures/BadCommentIsVisibleInComments.png)
+   ![BadComment](src/main/resources/Pictures/BadCommentIsVisibleInComments.png)
 
    And most importantly a ticket is being created after AI analyses it, so,
    staff can recognise the issue.
-   ![GoodComment](src/main/resources/Pictures/TicketIsBeingCreated.png)
+   ![BadComment](src/main/resources/Pictures/TicketIsBeingCreated.png)
+
+## Using a website: 
+
+# Leaving a bad comment: 
+![BadComment](src/main/resources/Pictures/BadCommentOnWebsite.png)
+
+# Few moments later a ticket is created: 
+![TicketIsCreated](src/main/resources/Pictures/TicketIsCreated.png)
+
+# Good Comment (when it is sent a ticket is NOT created):
+![TicketIsCreated](src/main/resources/Pictures/GoodComment.png)
 
 ## AI categories and priorities
+
 
 ````
 Categories:
@@ -72,3 +84,4 @@ HIGH - critical and urgent problem
 MEDIUM - medium priority
 LOW - low priority
 ````
+

@@ -17,9 +17,6 @@ import java.util.Map;
 @Service
 public class HuggingFaceService
 {
-
-    private static final Logger logger = LoggerFactory.getLogger(HuggingFaceService.class);
-
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -117,11 +114,13 @@ public class HuggingFaceService
         }
     }
 
-    private String extractJSON(String text) {
+    private String extractJSON(String text)
+    {
         int start = text.indexOf("{");
         int end = text.lastIndexOf("}");
 
-        if (start != -1 && end != -1 && end > start) {
+        if (start != -1 && end != -1 && end > start)
+        {
             return text.substring(start, end + 1);
         }
 
@@ -146,7 +145,8 @@ public class HuggingFaceService
         );
     }
 
-    private boolean containsProblemKeywords(String text) {
+    private boolean containsProblemKeywords(String text)
+    {
         String lowerText = text.toLowerCase();
         String[] problemKeywords = {
                 "bug", "error", "issue", "problem", "broken", "not working",
