@@ -17,12 +17,16 @@ public class CommentService
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private HuggingFaceService huggingFaceService;
+
     public Comment processComment(String text)
     {
         Comment comment = new Comment(text);
         comment = commentRepository.save(comment);
 
-        AnalysisResultFromAI analysis = simpleAnalysis(text);
+        AnalysisResultFromAI analysis = huggingFaceService.analyzeComment(text);
+
         comment.setProcessed(true);
         comment.setNeedsTicket(analysis.isNeedsTicket());
 
@@ -32,25 +36,6 @@ public class CommentService
         }
 
         return commentRepository.save(comment);
-    }
-
-    private AnalysisResultFromAI simpleAnalysis(String text)
-    {
-        String lower = text.toLowerCase();
-        boolean isPositive = lower.contains("love") || lower.contains("great") || lower.contains("amazing");
-
-        if (isPositive)
-        {
-            return new AnalysisResultFromAI(false, "", "", "", "");
-        }
-
-        return new AnalysisResultFromAI(
-                true,
-                "User issue: " + text.substring(0, Math.min(50, text.length())),
-                "bug",
-                "medium",
-                text.substring(0, Math.min(100, text.length()))
-        );
     }
 
     public List<Comment> getAllComments()

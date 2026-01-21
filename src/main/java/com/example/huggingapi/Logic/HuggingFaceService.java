@@ -88,7 +88,8 @@ public class HuggingFaceService
             """, comment);
     }
 
-    private AnalysisResultFromAI parseAIResponse(String responseBody) {
+    private AnalysisResultFromAI parseAIResponse(String responseBody)
+    {
         try {
             JsonNode rootNode = objectMapper.readTree(responseBody);
 

@@ -63,7 +63,8 @@ public class AnalysisResultFromAI {
         this.category = category;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(String priority)
+    {
         this.priority = priority;
     }
 
