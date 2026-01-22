@@ -1,6 +1,6 @@
 ## Pulse Desk - Comment to ticket system.
 
-## Link to deployen application: https://pulse-desk-1.onrender.com/simple.html
+## Link to the deployed application: https://pulse-desk-1.onrender.com/simple.html
 
 ## Video demonstration:
 https://www.youtube.com/watch?v=y7rjymqp-XY
