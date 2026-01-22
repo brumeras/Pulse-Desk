@@ -1,5 +1,7 @@
 package com.example.huggingapi.Controller;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import com.example.huggingapi.Logic.CommentService;
 import com.example.huggingapi.Model.Comment;
 import jakarta.validation.Valid;

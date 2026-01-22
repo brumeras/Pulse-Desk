@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TicketService {
-
+public class TicketService
+{
     @Autowired
     private TicketRepository ticketRepository;
 

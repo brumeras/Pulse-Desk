@@ -34,7 +34,6 @@ public class HuggingFaceService
     {
         try
         {
-
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + apiToken);
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -43,16 +42,18 @@ public class HuggingFaceService
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("inputs", prompt);
+
             requestBody.put("parameters", Map.of(
-                    "max_new_tokens", 300,
-                    "temperature", 0.1,
-                    "return_full_text", false
+                    "max_new_tokens", 500,
+                    "temperature", 0.3,
+                    "return_full_text", false,
+                    "do_sample", true,
+                    "top_p", 0.95
             ));
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
             ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
-
 
             return parseAIResponse(response.getBody());
 
@@ -63,28 +64,42 @@ public class HuggingFaceService
         }
     }
 
-    private String buildPrompt(String comment) {
+    /**
+     * This method is crucial for AI analysis.
+     * It gives a promt to AI. In other words - what to do.
+     * Also describes a specific formatation for a response.
+     * @param comment
+     * @return
+     */
+    private String buildPrompt(String comment)
+    {
         return String.format("""
-            Analyze this user comment and determine if it requires a support ticket.
+            You are a support ticket analyzer. Analyze this user comment.
             
-            Comment: "%s"
+            User comment: "%s"
             
-            Respond ONLY with valid JSON in this exact format (no additional text):
-            {
-              "needsTicket": true,
-              "title": "brief title here",
-              "category": "bug",
-              "priority": "high",
-              "summary": "one sentence summary here"
-            }
+            Task: Determine if this needs a support ticket.
             
             Rules:
-            - category must be one of: bug, feature, billing, account, other
-            - priority must be one of: low, medium, high
-            - If the comment is just a compliment or positive feedback, set needsTicket to false
-            - If needsTicket is false, you can leave other fields empty
+            - If it's a compliment or positive feedback → needsTicket: false
+            - If it's a problem, bug, error, issue, question, or complaint → needsTicket: true
             
-            JSON:
+            Respond with ONLY this JSON structure:
+            {
+              "needsTicket": true or false,
+              "title": "brief descriptive title",
+              "category": "bug or feature or billing or account or other",
+              "priority": "low or medium or high",
+              "summary": "one sentence summary"
+            }
+            
+            IMPORTANT: 
+            - Problems like "can't login", "error", "not working", "broken" MUST have needsTicket: true
+            - Priority should be high for: crashes, login issues, payment problems, data loss
+            - Priority should be medium for: feature requests, minor bugs, account settings
+            - Priority should be low for: questions, suggestions
+            
+            Now analyze and respond with JSON only:
             """, comment);
     }
 
@@ -94,11 +109,17 @@ public class HuggingFaceService
             JsonNode rootNode = objectMapper.readTree(responseBody);
 
             String generatedText;
-            if (rootNode.isArray() && rootNode.size() > 0) {
+
+            if(rootNode.isArray() && rootNode.size() > 0)
+            {
                 generatedText = rootNode.get(0).get("generated_text").asText();
-            } else if (rootNode.has("generated_text")) {
+            }
+            else if(rootNode.has("generated_text"))
+            {
                 generatedText = rootNode.get("generated_text").asText();
-            } else {
+            }
+            else
+            {
                 generatedText = responseBody;
             }
 
@@ -135,12 +156,15 @@ public class HuggingFaceService
             return new AnalysisResultFromAI(false, "", "", "", "");
         }
 
+        String priority = determinePriority(commentText);
+        String category = determineCategory(commentText);
+
         return new AnalysisResultFromAI(
                 true,
-                "User reported issue",
-                "other",
-                "medium",
-                "Issue requires investigation: " + commentText.substring(0, Math.min(100, commentText.length()))
+                "User reported issue: " + commentText.substring(0, Math.min(60, commentText.length())),
+                category,
+                priority,
+                commentText.substring(0, Math.min(150, commentText.length()))
         );
     }
 
@@ -149,7 +173,9 @@ public class HuggingFaceService
         String lowerText = text.toLowerCase();
         String[] problemKeywords = {
                 "bug", "error", "issue", "problem", "broken", "not working",
-                "crash", "fail", "wrong", "help", "can't", "cannot", "unable"
+                "crash", "fail", "wrong", "help", "can't", "cannot", "unable",
+                "impossible", "doesn't work", "won't", "freezes", "stuck",
+                "lost", "missing", "disappeared", "charged", "refund"
         };
 
         for (String keyword : problemKeywords) {
@@ -159,5 +185,70 @@ public class HuggingFaceService
         }
 
         return false;
+    }
+
+    private String determinePriority(String text)
+    {
+        String lowerText = text.toLowerCase();
+
+        String[] highKeywords = {
+                "crash", "critical", "urgent", "immediately", "can't login",
+                "cannot login", "impossible", "lost data", "data loss",
+                "charged twice", "wrong charge", "refund", "security"
+        };
+
+        for(String keyword : highKeywords)
+        {
+            if(lowerText.contains(keyword))
+            {
+                return "high";
+            }
+        }
+
+        String[] lowKeywords = {
+                "suggestion", "could you", "would be nice", "maybe",
+                "consider", "eventually", "question"
+        };
+
+        for (String keyword : lowKeywords)
+        {
+            if(lowerText.contains(keyword))
+            {
+                return "low";
+            }
+        }
+
+        return "medium";
+    }
+
+    private String determineCategory(String text)
+    {
+        String lowerText = text.toLowerCase();
+
+        if (lowerText.contains("charge") || lowerText.contains("payment") ||
+                lowerText.contains("billing") || lowerText.contains("refund") ||
+                lowerText.contains("subscription") || lowerText.contains("invoice")) {
+            return "billing";
+        }
+
+        if (lowerText.contains("login") || lowerText.contains("password") ||
+                lowerText.contains("account") || lowerText.contains("sign in") ||
+                lowerText.contains("authentication") || lowerText.contains("reset")) {
+            return "account";
+        }
+
+        if (lowerText.contains("feature") || lowerText.contains("add") ||
+                lowerText.contains("would be") || lowerText.contains("suggest") ||
+                lowerText.contains("request")) {
+            return "feature";
+        }
+
+        if (lowerText.contains("bug") || lowerText.contains("crash") ||
+                lowerText.contains("error") || lowerText.contains("broken") ||
+                lowerText.contains("not working") || lowerText.contains("doesn't work")) {
+            return "bug";
+        }
+
+        return "other";
     }
 }

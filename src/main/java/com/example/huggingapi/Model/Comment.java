@@ -1,5 +1,7 @@
 package com.example.huggingapi.Model;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -52,7 +54,6 @@ public class Comment {
         return needsTicket;
     }
 
-    // Setters
     public void setId(Long id) {
         this.id = id;
     }

@@ -1,5 +1,7 @@
 package com.example.huggingapi;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import com.example.huggingapi.Model.Ticket;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,5 +1,7 @@
 package com.example.huggingapi.Controller;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import com.example.huggingapi.Logic.TicketService;
 import com.example.huggingapi.Model.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;

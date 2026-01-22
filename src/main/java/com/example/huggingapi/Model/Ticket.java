@@ -1,5 +1,7 @@
 package com.example.huggingapi.Model;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

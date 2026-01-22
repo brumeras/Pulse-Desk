@@ -1,5 +1,7 @@
 package com.example.huggingapi.Logic;
-
+/**
+ * @author Emilija Sankauskaitė
+ */
 import com.example.huggingapi.AnalysisResultFromAI;
 import com.example.huggingapi.Model.Comment;
 import com.example.huggingapi.Repository.CommentRepository;
