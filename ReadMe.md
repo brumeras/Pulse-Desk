@@ -10,6 +10,7 @@ https://www.youtube.com/watch?v=y7rjymqp-XY
 - [Getting Started](#getting-started)
 - [Quick Test](#quick-test)
 - [How It Works](#how-it-works-visual-guide)
+- [API Endpoints](#api-endpoints)
 - [Future Improvements](#future-improvements)
 
 
@@ -141,11 +142,11 @@ Before you begin, ensure you have:
    ``
 6. **Verify It's Running**
    Open in browser:
-   ``
+   ````
    http://localhost:8080/tickets
 
    http://localhost:8080/comments
-   ``
+   ````
 7. Then open a file in src/main/simple.html
 This is the UI for the application in which a user can submit the comments. 
 
@@ -250,6 +251,22 @@ Priority: HIGH (payment issues are urgent!)
 Title: Auto-generated descriptive title
 Summary: AI-generated issue summary
 ````
+# API Endpoints
+
+### Comments
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/comments` | Submit a new comment |
+| GET | `/comments` | Get all comments |
+| GET | `/comments/{id}` | Get comment by ID |
+
+### Tickets
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/tickets` | Get all tickets |
+| GET | `/tickets/{id}` | Get ticket by ID |
 
 # Future Improvements
 
