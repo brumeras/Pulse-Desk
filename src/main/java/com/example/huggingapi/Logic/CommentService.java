@@ -1,6 +1,10 @@
 package com.example.huggingapi.Logic;
 /**
  * @author Emilija Sankauskaitė
+ * @Autowired helps with DI
+ * This class works only with comments in order to not break Single Responsibility Principle.
+ * Work flow: User submits a comment -> Save to DB (get ID) -> Send AI for analysis
+ * -> Update comment (processed=true) -> Create ticket if needed -> Return updated comment
  */
 import com.example.huggingapi.AnalysisResultFromAI;
 import com.example.huggingapi.Model.Comment;
@@ -22,6 +26,15 @@ public class CommentService
     @Autowired
     private HuggingFaceService huggingFaceService;
 
+    /**
+     * This method is one of the most essential.
+     * 1. It creates a comment (Comment comment = new Comment(text);)
+     * 2. Sends it to analyse for AI.
+     * 3. Updates a comment (comment.setProcessed(true);)
+     * 4. If needed, a ticket is created (ticketService.createTicket(comment, analysis);)
+     * @param text
+     * @return
+     */
     public Comment processComment(String text)
     {
         Comment comment = new Comment(text);

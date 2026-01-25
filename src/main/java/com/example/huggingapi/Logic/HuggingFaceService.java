@@ -1,5 +1,9 @@
 package com.example.huggingapi.Logic;
 
+/**
+ * @author Emilija Sankauskaitė
+ */
+
 import com.example.huggingapi.AnalysisResultFromAI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,6 +34,17 @@ public class HuggingFaceService
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * This method is responsible for:
+     * 1. Creating HTTP headers.
+     * 2. Creating prompt AI.
+     * 3. Creating request body.
+     * 4. Sending to Hugging Face.
+     * 5. Parsing the responce.
+     * 6. If AI does not work, fallback is used.
+     * @param commentText
+     * @return
+     */
     public AnalysisResultFromAI analyzeComment(String commentText)
     {
         try
@@ -103,6 +118,14 @@ public class HuggingFaceService
             """, comment);
     }
 
+    /**
+     * This method is used for parsing the responce.
+     * Since Hugging Face API returns [{"generated_text": "..."}].
+     * This method extracts JSON part.
+     * & converts to JSON object.
+     * @param responseBody
+     * @return
+     */
     private AnalysisResultFromAI parseAIResponse(String responseBody)
     {
         try {
@@ -147,6 +170,12 @@ public class HuggingFaceService
         return text;
     }
 
+    /**
+     * Just in case AI does not work, analysis could be done here without AI.
+     * for example, AI API is turned off, too many requests, internet issues.
+     * @param commentText
+     * @return
+     */
     private AnalysisResultFromAI createFallbackAnalysis(String commentText)
     {
 

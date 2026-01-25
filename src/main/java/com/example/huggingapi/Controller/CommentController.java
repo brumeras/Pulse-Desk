@@ -1,6 +1,11 @@
 package com.example.huggingapi.Controller;
 /**
  * @author Emilija Sankauskaitė
+ * What happens: POST http://localhost:8080/comments ->
+ * Body: {"text": "The app is broken!"} ->
+ * Spring converts JSON to CommentRequest ->
+ * Calls commentService.processComment() ->
+ * Returns Comment object like JSON
  */
 import com.example.huggingapi.Logic.CommentService;
 import com.example.huggingapi.Model.Comment;
@@ -10,6 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @RestController - @Controller + @ResponseBody (returns JSON)
+ * @RequestMapping("/comments") - base URL path
+ * @PostMapping - `POST /comments`
+ * @GetMapping - `GET /comments`
+ * @RequestBody - converts JSON to JAVA objects
+ * @Valid - validates provided data
+ */
 @RestController
 @RequestMapping("/comments")
 public class CommentController

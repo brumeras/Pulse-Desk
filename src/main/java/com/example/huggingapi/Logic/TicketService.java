@@ -1,4 +1,8 @@
 package com.example.huggingapi.Logic;
+/**
+ * @author Emilija Sankauskaitė
+ * This class works with tickets.
+ */
 
 import com.example.huggingapi.AnalysisResultFromAI;
 import com.example.huggingapi.Model.Comment;

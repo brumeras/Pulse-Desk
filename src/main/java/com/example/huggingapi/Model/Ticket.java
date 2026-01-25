@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
-public class Ticket {
+public class Ticket
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,9 @@ public class Ticket {
     @Column(nullable = false, length = 500)
     private String title;
 
+    /**
+     * @Enumerated(EnumType.STRING) allows for a database to save text in a field instead of a number.
+     */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -44,7 +48,8 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Long commentId, String title, Category category, Priority priority, String summary) {
+    public Ticket(Long commentId, String title, Category category, Priority priority, String summary)
+    {
         this.commentId = commentId;
         this.title = title;
         this.category = category;
@@ -53,7 +58,8 @@ public class Ticket {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 

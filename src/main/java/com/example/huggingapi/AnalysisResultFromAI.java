@@ -1,9 +1,13 @@
 package com.example.huggingapi;
 /**
  * @author Emilija Sankauskaitė
+ * This class is responsible for DTO - it saves an AI response.
+ * @JsonProperty maps JSON fields to JAVA fields.
+ * Since AI returns JSON file, Spring automatically converts this JSON to AnalysisResultFromAI object.
  */
 import com.example.huggingapi.Model.Ticket;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AnalysisResultFromAI {
 
@@ -22,10 +26,12 @@ public class AnalysisResultFromAI {
     @JsonProperty("summary")
     private String summary;
 
-    public AnalysisResultFromAI() {
+    public AnalysisResultFromAI()
+    {
     }
 
-    public AnalysisResultFromAI(boolean needsTicket, String title, String category, String priority, String summary) {
+    public AnalysisResultFromAI(boolean needsTicket, String title, String category, String priority, String summary)
+    {
         this.needsTicket = needsTicket;
         this.title = title;
         this.category = category;
@@ -74,24 +80,40 @@ public class AnalysisResultFromAI {
         this.summary = summary;
     }
 
-    public Ticket.Category getCategoryEnum() {
-        if (category == null) {
+    /**
+     * Methods getCategoryEnum() and getPriorityEnum() set categories and priorities to tickets.
+     * AI returns text "bug", therefore, it needs to be converted to enum (Ticket.Category.BUG).
+     * valueOf("BUG") converts to ENUM.
+     * If AI makes a mistake and returns nonsense, category - other.
+     */
+    public Ticket.Category getCategoryEnum()
+    {
+        if(category == null)
+        {
             return Ticket.Category.OTHER;
         }
-        try {
+        try
+        {
             return Ticket.Category.valueOf(category.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             return Ticket.Category.OTHER;
         }
     }
 
-    public Ticket.Priority getPriorityEnum() {
-        if (priority == null) {
+    public Ticket.Priority getPriorityEnum()
+    {
+        if(priority == null)
+        {
             return Ticket.Priority.MEDIUM;
         }
-        try {
+        try
+        {
             return Ticket.Priority.valueOf(priority.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             return Ticket.Priority.MEDIUM;
         }
     }
