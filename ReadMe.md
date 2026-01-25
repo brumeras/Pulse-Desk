@@ -150,7 +150,7 @@ Before you begin, ensure you have:
 
    http://localhost:8080/comments
    ````
-7. Then open a file in src/main/simple.html
+7. http://localhost:8080/simple.html
 This is the UI for the application in which a user can submit the comments. 
 
 # Quick Test
